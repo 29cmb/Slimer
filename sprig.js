@@ -11,6 +11,10 @@ const bkeyDoor = "d"
 const rkeyDoor = "s"
 const gkeyDoor = "q"
 
+const crate = "c"
+const crateButton = "j"
+const crateWall = "v"
+
 const obstacles = [wall, bkeyDoor, rkeyDoor, gkeyDoor]
 
 setLegend(
@@ -183,10 +187,61 @@ FFFFFFFFFFFFFFFF`],
 ...4444444444...
 ...4444444444...
 ...4444444444...
-...4444444444...`]
-)
+...4444444444...`],
+  [ crate, bitmap`
+9999999999999999
+9966666666666699
+9696666666666969
+9669666666669669
+9666966666696669
+9666696666966669
+9666669669666669
+9666666996666669
+9666666996666669
+9666669669666669
+9666696666966669
+9666966666696669
+9669666666669669
+9696666666666969
+9966666666666699
+9999999999999999`],
+  [ crateButton, bitmap`
+....99999999....
+...9666666669...
+..966999999669..
+.96999999999969.
+9669999999999669
+9699999999999969
+9699999999999969
+9699999999999969
+9699999999999969
+9699999999999969
+9699999999999969
+9669999999999669
+.96999999999969.
+..966999999669..
+...9666666669...
+....99999999....`],
+  [ crateWall, bitmap`
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...
+...9999999999...`]
+  )
 
-setSolids([wall, ...obstacles])
+setSolids([...obstacles])
 
 let level = 0
 const levels = [
@@ -221,7 +276,7 @@ pa......`,
 ....d...
 ....d...
 p...d..g`,
-map`
+  map`
 rd...q.s.
 .d...q.s.
 .d..kq.s.
@@ -229,6 +284,12 @@ rd...q.s.
 .d...q.s.
 .d...q.s.
 .d.p.qbsg`,
+  map`
+.....vg.
+.j...v..
+.....v..
+...c.v..
+p....v..`
 ]
 
 const win = map`
@@ -240,7 +301,7 @@ const win = map`
 setMap(levels[level])
 
 setPushables({
-  [ player ]: []
+  [ player ]: [ crate ]
 })
 
 onInput("w", () => movePlayer(0, -1))
@@ -266,8 +327,34 @@ function movePlayer(dx, dy) {
     const targetY = playerSprite.y + dy
     
     if (!isObstacle(targetX, targetY)) {
-      playerSprite.x = targetX
-      playerSprite.y = targetY
+        const targetTileSprites = getTile(targetX, targetY)
+  
+        const crateIndex = targetTileSprites.findIndex(sprite => sprite.type === crate)
+        
+        if (crateIndex !== -1) {
+          const nextTileSprites = getTile(targetX + dx, targetY + dy)
+          const nextCrateIndex = nextTileSprites.findIndex(sprite => sprite.type === crate)
+          
+          if (nextCrateIndex === -1 && !isObstacle(targetX + dx, targetY + dy)) {
+            targetTileSprites[crateIndex].x += dx
+            targetTileSprites[crateIndex].y += dy
+            playerSprite.x = targetX
+            playerSprite.y = targetY
+
+            const button = getTile(targetTileSprites[crateIndex].x, targetTileSprites[crateIndex].y)
+            if(button.some(sprite => sprite.type == crateButton)){
+                targetTileSprites[crateIndex].remove()
+                getAll(crateWall).forEach(wall => {
+                    wall.remove()
+                })
+            }
+          }
+        } else {
+          if (!isObstacle(targetX, targetY)) {
+            playerSprite.x = targetX
+            playerSprite.y = targetY
+          }
+        }
   
       const blueKey = getTile(targetX, targetY).find(sprite => sprite.type === bkey)
       const redKey = getTile(targetX, targetY).find(sprite => sprite.type === rkey)

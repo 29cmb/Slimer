@@ -367,14 +367,13 @@ afterInput(() =>{
 })
 
 function movePlayer(dx, dy) {
-  console.log(dx, dy)
-    const playerSprite = getFirst(player)
+  getAll(player).forEach((playerSprite) => {
     const targetX = playerSprite.x + dx
     const targetY = playerSprite.y + dy
     
     if (!isObstacle(targetX, targetY)) {
         const targetTileSprites = getTile(targetX, targetY)
-  
+
         const crateIndex = targetTileSprites.findIndex(sprite => sprite.type === crate)
         
         if (crateIndex !== -1) {
@@ -401,7 +400,7 @@ function movePlayer(dx, dy) {
             playerSprite.y = targetY
           }
         }
-  
+
       const blueKey = getTile(targetX, targetY).find(sprite => sprite.type === bkey)
       const redKey = getTile(targetX, targetY).find(sprite => sprite.type === rkey)
       const greenKey = getTile(targetX, targetY).find(sprite => sprite.type == gkey)
@@ -430,7 +429,9 @@ function movePlayer(dx, dy) {
         })
       }
     }
-  }
+  })
+  
+}
   
 
 function isObstacle(x, y) {

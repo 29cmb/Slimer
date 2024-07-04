@@ -221,6 +221,14 @@ pa......`,
 ....d...
 ....d...
 p...d..g`,
+map`
+rd...q.s.
+.d...q.s.
+.d..kq.s.
+.d...q.s.
+.d...q.s.
+.d...q.s.
+.d.p.qbsg`,
 ]
 
 const win = map`
@@ -261,13 +269,30 @@ function movePlayer(dx, dy) {
       playerSprite.x = targetX
       playerSprite.y = targetY
   
-      const tile = getTile(targetX, targetY).find(sprite => sprite.type === bkey)
-      
-      if (tile) {
-        tile.remove() // Remove the key
-        
-        // Toggle the state of the door
+      const blueKey = getTile(targetX, targetY).find(sprite => sprite.type === bkey)
+      const redKey = getTile(targetX, targetY).find(sprite => sprite.type === rkey)
+      const greenKey = getTile(targetX, targetY).find(sprite => sprite.type == gkey)
+
+      if (blueKey) {
+        blueKey.remove()
+
         getAll(bkeyDoor).forEach(door => {
+          door.remove()
+        })
+      }
+
+      if (redKey) {
+        redKey.remove()
+
+        getAll(rkeyDoor).forEach(door => {
+          door.remove()
+        })
+      }
+
+      if (greenKey){
+        greenKey.remove()
+
+        getAll(gkeyDoor).forEach(door => {
           door.remove()
         })
       }

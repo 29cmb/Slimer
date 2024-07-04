@@ -91,11 +91,17 @@ p.....
 ......`,
   map`
 .......
-...a...
+.......
 ...a...
 ...a...
 ...a...
 p..a.g.`,
+  map`
+.....ag.
+aaa..aa.
+....aa..
+.a.aa...
+pa......`
 ]
 
 const win = map`
@@ -147,7 +153,7 @@ onInput("d", () => {
 })
 afterInput(() =>{
   if(!getFirst(player) || !getFirst(goal)) return;
-  if(getFirst(player).x === getFirst(goal).x){
+  if(getFirst(player).x === getFirst(goal).x && getFirst(player).y == getFirst(goal).y){
     level++
     if (level < levels.length) {
       setMap(levels[level])

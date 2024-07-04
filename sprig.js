@@ -307,15 +307,27 @@ p..a.g`,
 .a..v........vs.
 .a..v........vs.
 .aaaa........vs.
-gab.q..p.....vs.`
+gab.q..p.....vs.`,
+    map`
+gd..q..k.v..r.
+.d..q....v.aaa
+.d.cq....v.s..
+.d..q....v.s..
+.d..qj...v.s..
+.d..q....v.s..
+.d..q....v.s..
+.d..q....v.s..
+.d..q....v.s..
+.d..q..p.v.s.b`
   ]
 
 const win = map`
-.w.
-.p.
-...`
+..w..
+..p..
+.....
+.....`
 
-
+const d = Date.now()
 setMap(levels[level])
 
 setPushables({
@@ -337,9 +349,11 @@ afterInput(() =>{
       setMap(win)
     }
   }
+  console.log(Date.now() - d)
 })
 
 function movePlayer(dx, dy) {
+  console.log(dx, dy)
     const playerSprite = getFirst(player)
     const targetX = playerSprite.x + dx
     const targetY = playerSprite.y + dy

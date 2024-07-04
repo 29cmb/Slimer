@@ -15,7 +15,7 @@ const crate = "c"
 const crateButton = "j"
 const crateWall = "v"
 
-const obstacles = [wall, bkeyDoor, rkeyDoor, gkeyDoor]
+const obstacles = [wall, bkeyDoor, rkeyDoor, gkeyDoor, crateWall]
 
 setLegend(
   [ player, bitmap`

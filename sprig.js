@@ -325,7 +325,14 @@ gd..q..k.v..r.
 ..d.a...
 g.d.c..p
 ..d.....
-..d.....`
+..d.....`,
+    map`
+gdqc...kc.
+.dqc....c.
+.dqc....c.
+.dqccccccb
+.dqc....c.
+.dqc.p..c.`
   ]
 
 const win = map`
@@ -382,7 +389,7 @@ function movePlayer(dx, dy) {
 
             const button = getTile(targetTileSprites[crateIndex].x, targetTileSprites[crateIndex].y)
             if(button.some(sprite => sprite.type == crateButton)){
-                //targetTileSprites[crateIndex].remove()
+                targetTileSprites[crateIndex].remove()
                 getAll(crateWall).forEach(wall => {
                     wall.remove()
                 })

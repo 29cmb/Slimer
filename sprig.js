@@ -345,9 +345,8 @@ g.ap.d..v.`,
   ]
 
 const win = map`
-..w..
-..p..
 .....
+..p..
 .....`
 
 const d = Date.now()
@@ -361,11 +360,12 @@ onInput("w", () => movePlayer(0, -1))
 onInput("s", () => movePlayer(0, 1))
 onInput("a", () => movePlayer(-1, 0))
 onInput("d", () => movePlayer(1, 0))
-
+var activePowerup = "None"
 afterInput(() =>{
   if(!getFirst(player) || !getFirst(goal)) return;
   if(getFirst(player).x === getFirst(goal).x && getFirst(player).y == getFirst(goal).y){
     level++
+    activePowerup = "None"
     if (level < levels.length) {
       setMap(levels[level])
     } else {
@@ -373,7 +373,7 @@ afterInput(() =>{
     }
   }
 })
-var activePowerup = "None"
+
 function movePlayer(dx, dy) {
   if(activePowerup == "DoubleMove"){ 
 
@@ -416,18 +416,14 @@ function movePlayer(dx, dy) {
               getTile(targetX, targetY).find(sprite => sprite.type === "n").remove()
             }
 
+            if(targetX < 0) targetX = 0
+            if(targetX > width()) targetX = width()
+
+            if(targetY > height()) targetY = height()
+            if(targetY < 0) targetY = 0
+
             playerSprite.x = targetX
             playerSprite.y = targetY
-
-            if (playerSprite.x != targetX){
-              targetX = playerSprite.x + (dx / 2)
-              playerSprite.x = targetX
-            }
-
-            if (playerSprite.y != targetY){
-              targetY = playerSprite.y + (dy / 2)
-              playerSprite.y = targetY
-            }
           }
         }
 

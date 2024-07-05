@@ -15,6 +15,8 @@ const crate = "c"
 const crateButton = "j"
 const crateWall = "v"
 
+const doubleStepPowerup = "n"
+
 const obstacles = [wall, bkeyDoor, rkeyDoor, gkeyDoor, crateWall]
 
 setLegend(
@@ -52,23 +54,6 @@ setLegend(
 ..666444444666..
 ...6666666666...
 ....66666666....`], 
-  [ winnertext, bitmap`
-................
-.0.....0........
-.0.....0.0......
-.0.....0...000..
-.0..0..0.0.0.0..
-..00.00..0.0.0..
-................
-................
-................
-................
-................
-................
-................
-................
-................
-................`],
   [ wall, bitmap`
 FFFFFFFFFFFFFFFF
 FFFFFFFFFFFFFFFF
@@ -238,8 +223,26 @@ FFFFFFFFFFFFFFFF`],
 ...9999999999...
 ...9999999999...
 ...9999999999...
-...9999999999...`]
-  )
+...9999999999...`],
+  [ doubleStepPowerup, bitmap`
+................
+................
+................
+........6.......
+........6.......
+.......66.......
+.......66.......
+......6666......
+..66666666666...
+...6666666666...
+....6666666.....
+....666666......
+...66666666.....
+..666...666.....
+..........6.....
+................`]
+)
+
 
 setSolids([...obstacles])
 
@@ -332,7 +335,13 @@ gdqc...kc.
 .dqc....c.
 .dqccccccb
 .dqc....c.
-.dqc.p..c.`
+.dqc.p..c.`,
+map`
+..abjd..vn
+..a..d..v.
+..a..d..v.
+..a..dc.v.
+g.ap.d..v.`,
   ]
 
 const win = map`
@@ -363,13 +372,18 @@ afterInput(() =>{
       setMap(win)
     }
   }
-  console.log(Date.now() - d)
 })
-
+var activePowerup = "None"
 function movePlayer(dx, dy) {
+  if(activePowerup == "DoubleMove"){ 
+
+    dx = dx * 2
+    dy = dy * 2
+  }
+
   getAll(player).forEach((playerSprite) => {
-    const targetX = playerSprite.x + dx
-    const targetY = playerSprite.y + dy
+    var targetX = playerSprite.x + dx
+    var targetY = playerSprite.y + dy
     
     if (!isObstacle(targetX, targetY)) {
         const targetTileSprites = getTile(targetX, targetY)
@@ -388,16 +402,32 @@ function movePlayer(dx, dy) {
 
             const button = getTile(targetTileSprites[crateIndex].x, targetTileSprites[crateIndex].y)
             if(button.some(sprite => sprite.type == crateButton)){
-                targetTileSprites[crateIndex].remove()
+                //targetTileSprites[crateIndex].remove()
                 getAll(crateWall).forEach(wall => {
-                    wall.remove()
+                  wall.remove()
                 })
             }
           }
         } else {
-          if (!isObstacle(targetX, targetY)) {
+          if(!isObstacle(targetX, targetY)) {
+            if(getTile(targetX, targetY).find(sprite => sprite.type === "n")){
+              activePowerup = "DoubleMove"
+              console.log("set powerup")
+              getTile(targetX, targetY).find(sprite => sprite.type === "n").remove()
+            }
+
             playerSprite.x = targetX
             playerSprite.y = targetY
+
+            if (playerSprite.x != targetX){
+              targetX = playerSprite.x + (dx / 2)
+              playerSprite.x = targetX
+            }
+
+            if (playerSprite.y != targetY){
+              targetY = playerSprite.y + (dy / 2)
+              playerSprite.y = targetY
+            }
           }
         }
 

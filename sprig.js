@@ -398,7 +398,15 @@ aaaad.a.q...b
 jp.as....d.
 aaaas...pd.
 .aavs.aaaaa
-gaavs.a....`
+gaavs.a....`,
+  map`
+pa..v.ar.ap
+.a..v.a..a.
+.s..v.a....
+.s..v.a.caj
+.s..v.a....
+.a..v.a..a.
+pa..vga..ap`
   ]
 
 const win = map`

@@ -390,7 +390,15 @@ aaaad.a.q...b
 ....d.a.q....
 ....d.a.q....
 ....dka.q....
-.p..d.a.q..p.`
+.p..d.a.q..p.`,
+  map`
+...asb...dn
+.c.as....d.
+...as....d.
+jp.as....d.
+aaaas...pd.
+.aavs.aaaaa
+gaavs.a....`
   ]
 
 const win = map`

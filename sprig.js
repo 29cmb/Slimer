@@ -16,6 +16,7 @@ const crateButton = "j"
 const crateWall = "v"
 
 const doubleStepPowerup = "n"
+const depower = "z"
 
 const obstacles = [wall, bkeyDoor, rkeyDoor, gkeyDoor, crateWall]
 
@@ -240,7 +241,24 @@ FFFFFFFFFFFFFFFF`],
 ...66666666.....
 ..666...666.....
 ..........6.....
-................`]
+................`],
+  [ depower, bitmap`
+....33333333....
+...3333333333...
+..233333333332..
+.33233333333233.
+3333233333323333
+3333323333233333
+3333332332333333
+3333333223333333
+3333333223333333
+3333332332333333
+3333323333233333
+3333233333323333
+.33233333333233.
+..233333333332..
+...3333333333...
+....33333333....`]
 )
 
 
@@ -352,7 +370,18 @@ gd.......v....
 .d..aba.jv....
 .d..aaa..v....
 .d.......v....
-.d.......v....`
+.d.......v....`,
+  map`
+.aq.......v..dn
+.aq.......v.zd.
+.aq...c...v..d.
+.aq.......v..d.
+.aq.....j.v..d.
+.aq.......v..d.
+.aq.......v..d.
+.aq.......v..d.
+.aq.......v..d.
+.aq....p..v..dk`
   ]
 
 const win = map`
@@ -426,6 +455,9 @@ function movePlayer(dx, dy) {
               activePowerup = "DoubleMove"
               console.log("set powerup")
               getTile(targetX, targetY).find(sprite => sprite.type === "n").remove()
+            } else if (getTile(targetX, targetY).find(sprite => sprite.type === depower)){
+              getTile(targetX, targetY).find(sprite => sprite.type === depower).remove()
+              activePowerup = "None"
             }
 
             if(targetX < 0) targetX = 0

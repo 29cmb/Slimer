@@ -1,5 +1,8 @@
+![Slimer](https://github.com/user-attachments/assets/9e4ae248-f330-4f59-b469-1fe59666d93f)
 # Slimer
 You are a slime and you need to escape your constricted box. Play levels, do puzzles, win.
+
+The sprig project can be found and modified [here](https://sprig.hackclub.com/share/qAYjXZuv1nO7TpBZASLR)
 
 A game made using sprig for [hack club arcade](https://hackclub.com/arcade)
 
